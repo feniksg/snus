@@ -1,0 +1,7 @@
+venv/
+__pycache__/bot_messages.cpython-38.pyc
+__pycache__/db.cpython-38.pyc
+__pycache__/globals.cpython-38.pyc
+__pycache__/lib.cpython-38.pyc
+__pycache__/linkhooks.cpython-38.pyc
+__pycache__/server.cpython-38.pyc

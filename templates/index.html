@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Cards</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+@media only screen and (min-width: 432px) {
+    .product-card {
+        padding: 2px;
+        margin: 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 0px 5px grey;
+        border-radius: 15px;
+        width: 200px;
+        background-color: white;
+        position: relative;
+    }
+    .product-card:last-child{
+        margin-bottom: 100px;
+    }
+    .product-image {
+        width: 95px;
+        margin-bottom: 2px;
+        position: relative;
+    }
+    .my-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 100vw;
+        justify-content: center;
+        
+    }
+    body {
+        margin: 0px;
+        padding: 0px;
+        height: 100vh;
+        width: 100vw;
+        background-color: #343434;
+    }
+    .price-text{
+        font-size: 8px;
+        padding: 0px;
+        margin: 0px;
+    }
+    .product-title{
+        font-size: 13px;
+        font-weight: 500;
+        padding: 0px;
+        margin: 3px;    
+    }
+    .shop-title{
+        text-align: center;
+        margin-top: auto;
+        margin-bottom: auto;
+        font-family: "Comic Sans MS";
+        font-weight: 700;
+    }
+    .header-container{
+        padding: 5px;
+        background-color: rgb(255, 231, 12);
+    }
+    .button{
+        border-radius: 15px;
+        height: 25px;
+        padding: 0px;
+        font-size: 13px;
+        background-color: blue;
+        border-color: blue;
+        display: flex;
+        /* align-items: center; */
+        justify-content: center;
+        margin: 5px 0;
+        width: 70%;
+        color: white;
+        font-weight: 700;
+    }
+    .svg {
+        color: #fff;
+    }
+    .nav-bar {
+        margin-top: 15px;
+        margin-left: 40px;
+        margin-right: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .form-control::placeholder{
+        text-indent: 14px;
+    }
+    .form-control{
+        border-radius: 15px;
+        max-width: 70%;
+    }
+    .input-group{
+        display: flex;
+        justify-content: center;
+    }
+    .search-icon{
+        position: absolute;
+        right: 19%;
+        z-index: 2;
+    }
+    .form-inline{
+        position: relative;
+    }
+}
+@media only screen and (max-width: 431px) {
+    .product-card {
+        padding: 2px;
+        margin: 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 0px 5px grey;
+        border-radius: 15px;
+        width: 43%;
+        background-color: white;
+        position: relative;
+    }
+    .product-card:last-child{
+        margin-bottom: 100px;
+    }
+    .product-image {
+        width: 95px;
+        margin-bottom: 2px;
+        position: relative;
+    }
+    .my-container {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 100vw;
+        justify-content: center;
+        
+    }
+    body {
+        margin: 0px;
+        padding: 0px;
+        height: 100vh;
+        width: 100vw;
+        background-color: #343434;
+    }
+    .price-text{
+        font-size: 8px;
+        padding: 0px;
+        margin: 0px;
+    }
+    .product-title{
+        font-size: 13px;
+        font-weight: 500;
+        padding: 0px;
+        margin: 3px;    
+    }
+    .shop-title{
+        text-align: center;
+        margin-top: auto;
+        margin-bottom: auto;
+        font-family: "Comic Sans MS";
+        font-weight: 700;
+    }
+    .button{
+        border-radius: 15px;
+        height: 25px;
+        padding: 5px;
+        font-size: 11px;
+        background-color: blue;
+        border-color: blue;
+        display: flex;
+        /* align-items: center; */
+        justify-content: center;
+        margin: 5px 0;
+        width: 70%;
+        height: 12%;
+        padding-top: 7px;
+        color: white;
+    }
+    .svg {
+        color: #fff;
+    }
+    .nav-bar {
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .form-control::placeholder{
+        text-indent: 14px;
+    }
+    .form-control{
+        border-radius: 15px;
+        max-width: 70%;
+    }
+    .input-group{
+        display: flex;
+        justify-content: center;
+    }
+    .search-icon{
+        position: absolute;
+        right: 19%;
+        z-index: 2;
+    }
+    .form-inline{
+        position: relative;
+    }
+}
+
+</style>
+<body>
+    <div class="nav-bar">
+        <div>
+            <svg fill="#ffffff" width="45px" height="45px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16.114,9.291c.552-.552,1.1-1.84-1.2-.276-3.268,2.255-6.489,4.372-6.489,4.372a2.7,2.7,0,0,1-2.117.046c-1.38-.414-2.991-.966-2.991-.966s-1.1-.691.783-1.427c0,0,7.961-3.267,10.722-4.418,1.058-.46,4.647-1.932,4.647-1.932s1.657-.645,1.519.92c-.046.644-.414,2.9-.782,5.338-.553,3.451-1.151,7.225-1.151,7.225s-.092,1.058-.874,1.242a3.787,3.787,0,0,1-2.3-.828c-.184-.138-3.451-2.209-4.648-3.221a.872.872,0,0,1,.046-1.473C12.939,12.375,14.918,10.488,16.114,9.291Z"/></svg>
+        </div>
+        <div>
+            <form class="form-inline">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Поиск" aria-label="Поиск" aria-describedby="basic-addon2">
+                </div>
+                <div class="search-icon">
+                    <svg fill="#000000" width="25px" height="25px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.716,4.354a8.031,8.031,0,1,0-2.7,13.138l3.58,3.581A3.164,3.164,0,0,0,21.073,16.6l-3.58-3.58A8.046,8.046,0,0,0,15.716,4.354ZM10.034,16.069A6.033,6.033,0,1,1,14.3,14.3,6,6,0,0,1,10.034,16.069Zm9.625,1.943a1.165,1.165,0,0,1-1.647,1.647l-3.186-3.186a8.214,8.214,0,0,0,.89-.757,8.214,8.214,0,0,0,.757-.89ZM11.035,14a1,1,0,0,1-1,1,4.972,4.972,0,0,1-4.966-4.965,1.014,1.014,0,0,1,1-1.017.984.984,0,0,1,1,.982v.035A2.968,2.968,0,0,0,10.035,13,1,1,0,0,1,11.035,14Z"/></svg>
+                </div>
+            </form>
+        </div>
+        <div>
+            <svg fill="#ffffff" width="45px" height="45px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22,8.5H19.535l-3.7-5.555a1,1,0,0,0-1.664,1.11L17.132,8.5H6.868L9.832,4.055a1,1,0,0,0-1.664-1.11L4.465,8.5H2a1,1,0,0,0,0,2H3v8a3,3,0,0,0,3,3H18a3,3,0,0,0,3-3v-8h1a1,1,0,0,0,0-2Zm-3,10a1,1,0,0,1-1,1H6a1,1,0,0,1-1-1v-8H19ZM7,17V13a1,1,0,0,1,2,0v4a1,1,0,0,1-2,0Zm4,0V13a1,1,0,0,1,2,0v4a1,1,0,0,1-2,0Zm4,0V13a1,1,0,0,1,2,0v4a1,1,0,0,1-2,0Z"/>
+            </svg>
+        </div>
+        
+    </div>
+    <hr>
+    <div id="product-container" class="my-container"></div>
+    
+    <script>
+        fetch('vm2373336.firstbyte.club/data/')
+            .then(response => response.json())
+            .then(products => {
+                const productContainer = document.getElementById('product-container');
+                
+                products.forEach(product => {
+                    if (product.image !== '') {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    
+                    
+                    card.innerHTML = `
+                        <img class="product-image" src="/images/${product.image}">
+                        <p class="product-title">${product.ms_code}</p>
+                    `;
+                    prices = document.createElement('div');
+                    prices.className = 'product-prices';
+                    prices.innerHTML += `<p class="price-text">от 1 шт - ${product.retail_price.toFixed(2)}฿</p>`
+                    if (product.mt10 !== 0) {
+                        prices.innerHTML += `<p class="price-text">от 10 шт - ${product.mt10.toFixed(2)}฿</p>`;
+                    }
+                    if (product.mt30 !== 0) {
+                        prices.innerHTML += `<p class="price-text">от 30 шт - ${product.mt30.toFixed(2)}฿</p>`;
+                    }
+                    if (product.mt60 !== 0) {
+                        prices.innerHTML += `<p class="price-text">от 60 шт - ${product.mt60.toFixed(2)}฿</p>`;
+                    }
+                    if (product.mt120 !== 0) {
+                        prices.innerHTML += `<p class="price-text">от 120 шт - ${product.mt120.toFixed(2)}฿</p>`;
+                    }
+                    if (product.mt240 !== 0) {
+                        prices.innerHTML += `<p class="price-text">от 240 шт - ${product.mt240.toFixed(2)}฿</p>`;
+                    }
+                    card.appendChild(prices)
+                    card.innerHTML += `<input class="button" type="button" value="В корзину">`
+                    productContainer.appendChild(card);
+                }    
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+
+</html>

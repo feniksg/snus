@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div></div>
+</body>
+</html>
+<style>
+    body{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    div{
+        margin-top: 100px;
+        width: 200px;
+        height: 300px;
+        background: skyblue;
+        border-radius: 15px;
+        position: relative;
+    }
+    div::after{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0cm;
+        left: 0cm;
+        z-index: -1;
+        content: '';
+        background-color: red;
+    }
+</style>
