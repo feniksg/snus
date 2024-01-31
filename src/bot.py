@@ -1,6 +1,4 @@
 import requests, logging, json
-from globals import TOKEN1
-from bot_messages import MESSAGE_HELLO
 
 logger = logging.Logger("BOT_1")
 
@@ -378,9 +376,10 @@ class Bot:
         )
 
 class Entrypoint:
-    def __init__(self, body):
+    def __init__(self, body, token):
         self.body = body
-        self.bot = Bot(TOKEN1)
+        self.bot = Bot(token)
+        self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
     
     def run(self):
         self.message = self.body.get('message', None)
@@ -415,4 +414,4 @@ class Entrypoint:
         if self.chat_type == 'private' and self.text == '/start':
             keyboard = [[{"text": "В магазин", "web_app": {"url": "https://t.me/snus1_feni_bot/snus1feni0shop"}}]]
             markup = json.dumps({"inline_keyboard": keyboard})
-            self.bot.send_tg_message(chat_id=self.chat_id, text=MESSAGE_HELLO, reply_markup=markup)
+            self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello, reply_markup=markup)
