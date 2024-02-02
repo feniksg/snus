@@ -4,7 +4,7 @@ from bot import Entrypoint
 from typing import List
 from config import settings
 from models import ProductModel
-from database import get_items
+from database import get_items, get_item
 from ms import set_ms_webhook, delete_ms_webhook
 import uvicorn, requests, os, sys
 
@@ -50,6 +50,14 @@ async def item_db_edit(request: Request):
 async def handle_order_add(request: Request):
     return {"ok": True}
 
+@app.get("/item/")
+async def get_current_item(id = None):
+    if id:
+        item = get_item(int(id))
+        return item
+    else:
+        return {"Error": "Indicate product id"}
+    
 @app.get("/data/")
 async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None):
     data = get_items(brand, nicotine_strength, taste, snus_type, search)

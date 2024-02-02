@@ -26,6 +26,14 @@ def insert_items(list):
         session.add(item)
     session.commit()
 
+def get_item(id):
+    item = session.query(ProductModel).filter(ProductModel.id == id).first()
+    if item:
+        return item
+    else:
+        return {"Error": "404. Item not found"}
+    
+
 def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None):
     all_items = session.query(ProductModel).filter(ProductModel.image != '')
     if brand:

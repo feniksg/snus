@@ -24,6 +24,6 @@ class ProductModel(AbstractModel):
             "mt10": self.mt10,
             "retail_price": self.retail_price
         }
-
+    
 if __name__ == "__main__":
     ...
