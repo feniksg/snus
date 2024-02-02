@@ -19,9 +19,6 @@ set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/
 delete_ms_webhook()
 set_ms_webhook()
 
-
-
-
 app = FastAPI()
 
 origins = ["*"]
@@ -53,10 +50,10 @@ async def item_db_edit(request: Request):
 async def handle_order_add(request: Request):
     return {"ok": True}
 
-
 @app.get("/data/")
 async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None):
     data = get_items(brand, nicotine_strength, taste, snus_type, search)
+    data = [item.to_json() for item in data]
     return data
 
 @app.post("/bot/")

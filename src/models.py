@@ -16,5 +16,14 @@ class ProductModel(AbstractModel):
     brand: Mapped[str] = mapped_column()
     currency: Mapped[str] = mapped_column()
 
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "image": self.image,
+            "mt10": self.mt10,
+            "retail_price": self.retail_price
+        }
+
 if __name__ == "__main__":
     ...
