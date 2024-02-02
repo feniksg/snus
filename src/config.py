@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     DB_NAME: str
     MS_TOKEN: str
     BOT_TOKEN_1: str
+    BOT_TOKEN_2: str
     DOMAIN: str
     
     @property

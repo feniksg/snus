@@ -415,3 +415,79 @@ class Entrypoint:
             keyboard = [[{"text": "В магазин", "web_app": {"url": "https://t.me/snus1_feni_bot/snus1feni0shop"}}]]
             markup = json.dumps({"inline_keyboard": keyboard})
             self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello, reply_markup=markup)
+
+class Entrypoint2:
+    def __init__(self, body, token):
+        self.body = body
+        self.bot = Bot(token)
+        self.admin_chat = -1002129695516
+        self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
+    
+    def run(self):
+        self.message = self.body.get('message', None)
+        if not self.message:
+            return
+        
+        self.message_id = self.message.get('message_id', None)
+        self.message_from = self.message.get('from', {})
+        if not self.message_from:
+            return
+
+        self.chat = self.message.get('chat', None)
+        self.chat_type = self.chat.get('type', None)
+        self.chat_id = self.chat.get('id', "")
+
+        self.new_chat_member = self.message.get('new_chat_member', {})
+        self.new_chat_member_name = self.new_chat_member.get('first_name', {})
+        if self.new_chat_member_name:
+            self.bot.delete_message(self.chat_id, self.message_id)
+            self.bot.send_tg_message(
+                self.chat_id, 
+                f"{self.new_chat_member_name}, добро пожаловать в группу!", 
+            )
+
+        self.first_name = self.message_from.get('first_name')
+        self.username = self.message_from.get('username')
+        self.user_id = self.message_from.get('id')
+
+        if self.chat_type == "private":
+            with open("chat.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+            
+            topic_id = None
+            for item in data:
+                if item[0] == self.chat_id:
+                    topic_id = item[1]
+
+            if not topic_id:
+                topic_id = self.bot.create_thread(self.admin_chat, self.first_name)['message_thread_id']
+                data.append([self.chat_id, topic_id])
+                with open("chat.json", "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+
+            self.bot.forward_tg_message(self.chat_id, self.message_id, self.admin_chat, topic_id)
+            return
+
+        if self.message.get('text'):
+            self.text = self.message["text"]
+        else:
+            return
+
+        if self.chat_id != self.admin_chat:
+            return
+
+        if self.message.get('is_topic_message'):
+            self.message_thread_id = self.message.get('message_thread_id', None)
+            with open("chat.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+            
+            chat_id = None
+            for item in data:
+                if item[1] == self.message_thread_id:
+                    chat_id = item[0]
+            
+            if not chat_id:
+                return
+            
+            self.bot.send_tg_message(chat_id, self.text)
+            return

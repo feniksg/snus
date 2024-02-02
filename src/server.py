@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
-from bot import Entrypoint
+from bot import Entrypoint, Entrypoint2
 from typing import List
 from config import settings
 from models import ProductModel
@@ -13,7 +13,9 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 #TG Webhooks
 delete_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/deleteWebhook?drop_pending_updates=True")
-set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/setWebhook?url={settings.DOMAIN}")
+set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/setWebhook?url={settings.DOMAIN}/bot/")
+delete_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/deleteWebhook?drop_pending_updates=True")
+set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/setWebhook?url={settings.DOMAIN}/bot2/")
 
 #MS Webhooks
 delete_ms_webhook()
@@ -33,6 +35,9 @@ app.add_middleware(
 
 async def run_entrypoint(body):
     Entrypoint(body, settings.BOT_TOKEN_1).run()
+
+async def run_entrypoint2(body):
+    Entrypoint2(body, settings.BOT_TOKEN_2).run()
 
 @app.post("/item/create/")
 async def item_db_add(request: Request):
@@ -69,6 +74,13 @@ async def main(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()
     print(body)
     background_tasks.add_task(run_entrypoint, body)
+    return {"ok": True}
+
+@app.post("/bot2/")
+async def main(request: Request, background_tasks: BackgroundTasks):
+    body = await request.json()
+    print(body)
+    background_tasks.add_task(run_entrypoint2, body)
     return {"ok": True}
 
 if __name__ == '__main__':
