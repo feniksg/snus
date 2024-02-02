@@ -77,14 +77,14 @@ async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus
 @app.post("/bot/")
 async def main(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()
-    print(body)
+    print(body['date'])
     background_tasks.add_task(run_entrypoint, body)
     return {"ok": True}
 
 @app.post("/bot2/")
 async def main(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()
-    print(body)
+    print(body['date'])
     background_tasks.add_task(run_entrypoint2, body)
     return {"ok": True}
 
