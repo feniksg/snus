@@ -6,6 +6,7 @@ from config import settings
 from models import ProductModel
 from database import get_items, get_item
 from ms import set_ms_webhook, delete_ms_webhook
+from time import sleep
 import uvicorn, requests, os, sys
 
 
@@ -20,7 +21,7 @@ delete_webhook2 = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN
 print(delete_webhook.status_code)
 set_webhook2 = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/setWebhook?url={settings.DOMAIN}/bot2/")
 print(set_webhook.status_code)
-
+sleep(3)
 #MS Webhooks
 delete_ms_webhook()
 set_ms_webhook()
