@@ -1,5 +1,5 @@
 import requests, logging, json
-
+from config import settings
 logger = logging.Logger("BOT_1")
 
 class BotError(Exception):
@@ -420,7 +420,7 @@ class Entrypoint2:
     def __init__(self, body, token):
         self.body = body
         self.bot = Bot(token)
-        self.admin_chat = -1002129695516
+        self.admin_chat = settings.ADMIN_CHAT
         self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
     
     def run(self):

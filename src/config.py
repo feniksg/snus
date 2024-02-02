@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     BOT_TOKEN_1: str
     BOT_TOKEN_2: str
     DOMAIN: str
+    ADMIN_CHAT: int
     
     @property
     def DATABASE_URL_psycopg(self):
