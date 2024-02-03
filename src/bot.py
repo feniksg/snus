@@ -1,5 +1,6 @@
 import requests, logging, json
 from config import settings
+from database import get_item
 logger = logging.Logger("BOT_1")
 
 class BotError(Exception):
@@ -379,8 +380,62 @@ class Entrypoint:
     def __init__(self, body, token):
         self.body = body
         self.bot = Bot(token)
+        self.admin_chat = settings.ADMIN_CHAT
         self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
     
+    def order_to_tg(self):
+        message = ''
+        phone = self.body.get("phone", None)
+        address = self.body.get("address", None)
+        comment = self.body.get("comment", None)
+        user_id = self.body.get("user_id", None)
+        products:dict = self.body.get("products", None)
+        if user_id:
+            if phone:
+                message+=f'Телефон: {phone}.\n'
+            else:
+                message+=f'Телефон не указан.\n'
+            if address:
+                message+=f'Адрес: {address}.\n'
+            else:
+                message+=f'Адрес не указан.\n'
+            if comment:
+                message+=f'Комментарий: {comment}.\n'
+            else:
+                message+=f'Комментарий не указан.'
+            if products:
+                message+=f'Корзина:\n'
+                total = 0
+                for key in products.keys():
+                    item = get_item(int(key)).to_json()
+                    amount = int(products[key])
+                    if amount >= 10:
+                        total+=item['mt10']*amount
+                    else:
+                        total+=item['retail_price']*amount
+                    message+=f'\t{item["name"]} - {amount} шт.\n'
+                message+=f'Итого: {total}฿'
+
+            with open("chat.json", "r", encoding="utf-8") as file:
+                data = json.load(file)
+            
+            topic_id = None
+            for item in data:
+                if item[0] == self.user_id:
+                    topic_id = item[1]
+            if not topic_id:
+                topic_id = self.bot.create_thread(self.admin_chat, user_id)['message_thread_id']
+                data.append([user_id, topic_id])
+                with open("chat.json", "w", encoding="utf-8") as f:
+                    json.dump(data, f, ensure_ascii=False, indent=2)
+
+            self.bot.send_tg_message(
+                chat_id=self.admin_chat,
+                text=message,
+                message_thread_id=topic_id
+                )
+            return
+
     def run(self):
         self.message = self.body.get('message', None)
         if not self.message:

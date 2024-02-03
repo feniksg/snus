@@ -4,7 +4,7 @@ from bot import Entrypoint, Entrypoint2
 from typing import List
 from config import settings
 from models import ProductModel
-from database import get_items, get_item
+from database import get_items, get_item, get_categories
 from ms import set_ms_webhook, delete_ms_webhook
 from time import sleep
 import uvicorn, requests, os, sys
@@ -44,6 +44,9 @@ async def run_entrypoint(body):
 async def run_entrypoint2(body):
     Entrypoint2(body, settings.BOT_TOKEN_2).run()
 
+async def run_entrypoint3(body):
+    Entrypoint(body, settings.BOT_TOKEN_1).order_to_tg()
+
 @app.post("/item/create/")
 async def item_db_add(request: Request):
     body = await request.json()
@@ -69,10 +72,21 @@ async def get_current_item(id = None):
         return {"Error": "Indicate product id"}
     
 @app.get("/data/")
-async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None):
-    data = get_items(brand, nicotine_strength, taste, snus_type, search)
+async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None, is_sale = None):
+    data = get_items(brand, nicotine_strength, taste, snus_type, search, is_sale)
     data = [item.to_json() for item in data]
     return data
+
+@app.get('/categories/')
+async def get_cats(request: Request):
+    cats = get_categories()
+    return cats
+
+@app.post('/tg/')
+async def order_to_tg(request: Request, background_tasks: BackgroundTasks):
+    body = await request.json()
+    background_tasks.add_task(run_entrypoint3, body)
+    return {"ok": True}
 
 @app.post("/bot/")
 async def main(request: Request, background_tasks: BackgroundTasks):

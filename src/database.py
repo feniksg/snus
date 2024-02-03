@@ -32,9 +32,24 @@ def get_item(id):
         return item
     else:
         return {"Error": "404. Item not found"}
-    
 
-def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None):
+def get_categories():
+    all_brand = set([item[0] for item in session.query(ProductModel.brand).all()])
+    if '' in all_brand:
+        all_brand.remove('')
+    all_taste = set([item[0] for item in session.query(ProductModel.taste).all()])
+    if '' in all_taste:
+        all_taste.remove('')
+    all_nicotine_strength = set([item[0] for item in session.query(ProductModel.nicotine_strength).all()])
+    if '' in all_nicotine_strength:
+        all_nicotine_strength.remove('')
+    return {
+        'brands': sorted(list(all_brand)),
+        'tasties': sorted(list(all_taste)),
+        'strength': sorted(list(all_nicotine_strength))
+    }
+
+def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None, is_sale = None):
     all_items = session.query(ProductModel).filter(ProductModel.image != '')
     if brand:
         all_items = all_items.filter(ProductModel.brand == brand)
@@ -44,6 +59,9 @@ def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = 
         all_items = all_items.filter(ProductModel.taste == taste)
     if snus_type:
         all_items = all_items.filter(ProductModel.snus_type == snus_type)
+    if is_sale:
+        is_sale = True if is_sale == 'True' or is_sale == 'true' else False
+        all_items = all_items.filter(ProductModel.is_sale == is_sale)
     if search:
         all_items = all_items.filter(ProductModel.name.like(f'%{search}%'))
     return all_items.all()
@@ -53,3 +71,4 @@ def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = 
 if __name__ == '__main__':
     # insert_items([CategoryModel(name="Cat's and Crabs")])
     create_tables()
+    # get_categories()

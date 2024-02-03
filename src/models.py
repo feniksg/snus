@@ -15,14 +15,17 @@ class ProductModel(AbstractModel):
     snus_type: Mapped[str] = mapped_column() 
     brand: Mapped[str] = mapped_column()
     currency: Mapped[str] = mapped_column()
+    sale_price: Mapped[float] = mapped_column()
+    is_sale: Mapped[bool] = mapped_column()
+    is_popular: Mapped[bool] = mapped_column(default=False)
 
     def to_json(self):
         return {
             "id": self.id,
             "name": self.name,
             "image": self.image,
-            "mt10": self.mt10,
-            "retail_price": self.retail_price
+            "mt10": self.mt10 if not self.sale_price else self.sale_price,
+            "retail_price": self.retail_price if not self.sale_price else self.sale_price
         }
     
 if __name__ == "__main__":

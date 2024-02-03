@@ -2,6 +2,7 @@ from requests import post, get
 from config import settings
 from database import insert_items, create_tables
 from models import ProductModel
+from time import sleep
 HEADERS = {"Authorization": f"Bearer {settings.MS_TOKEN}","Content-Type": "application/json", 'encoding': 'utf-8', "Accept-Encoding": "gzip"}
 
 
@@ -9,7 +10,10 @@ def get_all_items():
     url = "https://api.moysklad.ru/api/remap/1.2/entity/product"
     response = get(url=url, headers=HEADERS)
     if response.status_code == 200:
-        data = response.json().get('rows', None)
+        data:list = response.json().get('rows', None)
+        meta = response.json().get('meta', None)
+        if meta:
+            size = meta.get('size', None)
     if data:
         product_list = []
         for row in data:
@@ -21,6 +25,7 @@ def get_all_items():
             if salePrices:
                 retail_price = salePrices[0].get("value", 0.0)/100
                 mt10 = salePrices[1].get("value", 0.0)/100
+                sale_price = salePrices[4].get("value", 0.0)/100
             else:
                 retail_price = 0.0
                 mt10 = 0.0
@@ -46,11 +51,13 @@ def get_all_items():
             images = row.get("images", None)
             response = get(url=images['meta']['href'], headers=HEADERS).json()['rows']
             if response:
-                # with open(f'images/{ms_code}.png', "wb+") as file:
-                #     file.write(get(url = response[0]['meta']['downloadHref'], headers=HEADERS).content)
+                with open(f'images/{ms_code}.png', "wb+") as file:
+                    file.write(get(url = response[0]['meta']['downloadHref'], headers=HEADERS).content)
                 image = f'{ms_code}.png'
             else:
                 image = ''
+            print(f'Downloaded - {ms_code} [{data.index(row)+1}/{size}]')
+            sleep(1)
             product_list.append(ProductModel(
                 ms_code = ms_code,
                 name = name,
@@ -61,7 +68,9 @@ def get_all_items():
                 taste = taste,
                 snus_type = snus_type,
                 brand = brand,
-                currency = currency
+                currency = currency,
+                sale_price = sale_price,
+                is_sale = bool(sale_price)
             ))
         insert_items(product_list)
 
