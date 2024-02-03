@@ -434,6 +434,10 @@ class Entrypoint:
                 text=message,
                 message_thread_id=topic_id
                 )
+            self.bot.send_tg_message(
+                chat_id=user_id,
+                text=f"Ваш заказ на сумму {total}฿ принят!"
+            )
             return
 
     def run(self):
