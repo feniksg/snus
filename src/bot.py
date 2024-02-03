@@ -421,7 +421,7 @@ class Entrypoint:
             
             topic_id = None
             for item in data:
-                if item[0] == self.user_id:
+                if item[0] == user_id:
                     topic_id = item[1]
             if not topic_id:
                 topic_id = self.bot.create_thread(self.admin_chat, user_id)['message_thread_id']
