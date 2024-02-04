@@ -72,8 +72,8 @@ async def get_current_item(id = None):
         return {"Error": "Indicate product id"}
     
 @app.get("/data/")
-async def get_db_data(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None, is_sale = None):
-    data = get_items(brand, nicotine_strength, taste, snus_type, search, is_sale)
+async def get_db_data(brand = None, strength = None, taste = None, snus_type = None, search= None, is_sale = None):
+    data = get_items(brand, strength, taste, snus_type, search, is_sale)
     data = [item.to_json() for item in data]
     return data
 

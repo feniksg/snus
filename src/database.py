@@ -54,7 +54,7 @@ def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = 
     if brand:
         all_items = all_items.filter(ProductModel.brand == brand)
     if nicotine_strength:
-        all_items = all_items.filter(ProductModel.nicotine_strength == nicotine_strength)
+        all_items = all_items.filter(ProductModel.nicotine_strength == float(nicotine_strength))
     if taste:
         all_items = all_items.filter(ProductModel.taste == taste)
     if snus_type:
