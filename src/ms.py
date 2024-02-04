@@ -61,14 +61,14 @@ def get_all_items():
             try:
                 product_list.append(ProductModel(
                     ms_code = ms_code,
-                    name = name.lower(),
+                    name = name,
                     retail_price = retail_price,
                     image = image,
                     mt10 = mt10,
                     nicotine_strength = float(nicotine_strength.lower().replace('mg','')),
-                    taste = taste.lower(),
-                    snus_type = snus_type.lower(),
-                    brand = brand.lower(),
+                    taste = taste,
+                    snus_type = snus_type,
+                    brand = brand,
                     currency = currency,
                     sale_price = sale_price,
                     is_sale = bool(sale_price)
