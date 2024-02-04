@@ -17,8 +17,8 @@ def get_all_items():
     if data:
         product_list = []
         for row in data:
-            ms_code = row.get('code', '')
-            name = row.get('name', '')
+            ms_code:str = row.get('code', '')
+            name:str = row.get('name', '')
             currency = "THB"
 
             salePrices = row.get("salePrices", None)
@@ -71,7 +71,8 @@ def get_all_items():
                     brand = brand,
                     currency = currency,
                     sale_price = sale_price,
-                    is_sale = bool(sale_price)
+                    is_sale = bool(sale_price),
+                    search_name = f'{name.lower()}|{retail_price}|{mt10}|{nicotine_strength.lower()}|{taste.lower()}{snus_type.lower()}{brand.lower()}'
                 ))
             except Exception as e:
                 ...

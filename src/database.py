@@ -49,7 +49,7 @@ def get_categories():
         'strength': sorted(list(all_nicotine_strength))
     }
 
-def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = None, search= None, is_sale = None):
+def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = None, search:str= None, is_sale = None):
     all_items = session.query(ProductModel).filter(ProductModel.image != '')
     if brand:
         all_items = all_items.filter(ProductModel.brand == brand)
@@ -63,12 +63,13 @@ def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = 
         is_sale = True if is_sale == 'True' or is_sale == 'true' else False
         all_items = all_items.filter(ProductModel.is_sale == is_sale)
     if search:
-        all_items = all_items.filter(ProductModel.name.like(f'%{search}%'))
+        all_items = all_items.filter(ProductModel.search_name.like(f'%{search.lower()}%'))
     return all_items.all()
     
 
           
 if __name__ == '__main__':
     # insert_items([CategoryModel(name="Cat's and Crabs")])
-    create_tables()
+    get_items(search="mint")
+    # create_tables()
     # get_categories()

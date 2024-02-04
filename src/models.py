@@ -18,6 +18,7 @@ class ProductModel(AbstractModel):
     sale_price: Mapped[float] = mapped_column()
     is_sale: Mapped[bool] = mapped_column()
     is_popular: Mapped[bool] = mapped_column(default=False)
+    search_name: Mapped[str] = mapped_column()
 
     def to_json(self):
         return {
@@ -27,6 +28,6 @@ class ProductModel(AbstractModel):
             "mt10": self.mt10 if not self.sale_price else self.sale_price,
             "retail_price": self.retail_price if not self.sale_price else self.sale_price
         }
-    
+        
 if __name__ == "__main__":
     ...
