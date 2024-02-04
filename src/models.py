@@ -10,7 +10,7 @@ class ProductModel(AbstractModel):
     retail_price: Mapped[float] = mapped_column()
     mt10: Mapped[float] = mapped_column()
     image: Mapped[str] = mapped_column()
-    nicotine_strength: Mapped[str] = mapped_column()
+    nicotine_strength: Mapped[float] = mapped_column()
     taste: Mapped[str] = mapped_column()
     snus_type: Mapped[str] = mapped_column() 
     brand: Mapped[str] = mapped_column()

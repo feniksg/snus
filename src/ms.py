@@ -58,20 +58,23 @@ def get_all_items():
                 image = ''
             print(f'Downloaded - {ms_code} [{data.index(row)+1}/{size}]')
             sleep(1)
-            product_list.append(ProductModel(
-                ms_code = ms_code,
-                name = name,
-                retail_price = retail_price,
-                image = image,
-                mt10 = mt10,
-                nicotine_strength = nicotine_strength,
-                taste = taste,
-                snus_type = snus_type,
-                brand = brand,
-                currency = currency,
-                sale_price = sale_price,
-                is_sale = bool(sale_price)
-            ))
+            try:
+                product_list.append(ProductModel(
+                    ms_code = ms_code,
+                    name = name.lower(),
+                    retail_price = retail_price,
+                    image = image,
+                    mt10 = mt10,
+                    nicotine_strength = float(nicotine_strength.lower().replace('mg','')),
+                    taste = taste.lower(),
+                    snus_type = snus_type.lower(),
+                    brand = brand.lower(),
+                    currency = currency,
+                    sale_price = sale_price,
+                    is_sale = bool(sale_price)
+                ))
+            except Exception as e:
+                ...
         insert_items(product_list)
 
 def set_ms_webhook():
