@@ -81,3 +81,5 @@ images/00113.png
 images/00114.png
 images/00115.png
 *.pyc
+.env
+*.png

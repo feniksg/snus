@@ -389,7 +389,11 @@ class Entrypoint:
         address = self.body.get("address", None)
         comment = self.body.get("comment", None)
         user_id = self.body.get("user_id", None)
+        total = self.body.get("total", None)
+        payment = self.body.get("payment", None)
         products:dict = self.body.get("products", None)
+        username = self.body.get("username", None)
+        delivery = self.body.get("delivery", None)
         if user_id:
             if phone:
                 message+=f'Телефон: {phone}.\n'
@@ -402,18 +406,21 @@ class Entrypoint:
             if comment:
                 message+=f'Комментарий: {comment}.\n'
             else:
-                message+=f'Комментарий не указан.'
+                message+=f'Комментарий не указан.\n'
+            if payment:
+                message+=f'Способ оплаты: {payment}.\n'
+            else:
+                message+=f'Способо оплаты не указан.\n'
+            if delivery:
+                message+=f'Способ получения: {delivery}.\n'
+            else:
+                message+=f'Способ получения не указан.\n'
             if products:
                 message+=f'Корзина:\n'
-                total = 0
                 for key in products.keys():
-                    item = get_item(int(key)).to_json()
+                    item = get_item(int(key))
                     amount = int(products[key])
-                    if amount >= 10:
-                        total+=item['mt10']*amount
-                    else:
-                        total+=item['retail_price']*amount
-                    message+=f'\t{item["name"]} - {amount} шт.\n'
+                    message+=f'\t\t\t{item.name} - {amount} шт.\n'
                 message+=f'Итого: {total}฿'
 
             with open("chat.json", "r", encoding="utf-8") as file:
@@ -424,7 +431,10 @@ class Entrypoint:
                 if item[0] == user_id:
                     topic_id = item[1]
             if not topic_id:
-                topic_id = self.bot.create_thread(self.admin_chat, user_id)['message_thread_id']
+                if username:
+                    topic_id = self.bot.create_thread(self.admin_chat, username)['message_thread_id']
+                else:
+                    topic_id = self.bot.create_thread(self.admin_chat, user_id)['message_thread_id']
                 data.append([user_id, topic_id])
                 with open("chat.json", "w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False, indent=2)
