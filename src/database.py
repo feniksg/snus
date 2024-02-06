@@ -26,6 +26,9 @@ def insert_items(list):
         session.add(item)
     session.commit()
 
+def item_from_ms(body):
+    ...
+
 def get_item(id):
     item = session.query(ProductModel).filter(ProductModel.id == id).first()
     if item:
