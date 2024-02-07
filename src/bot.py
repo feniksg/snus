@@ -481,7 +481,7 @@ class Entrypoint:
         self.user_id = self.message_from.get('id')
 
         if self.chat_type == 'private' and self.text == '/start':
-            keyboard = [[{"text": "В магазин", "web_app": {"url": "https://t.me/snus1_feni_bot/snus1feni0shop"}}]]
+            keyboard = [[{"text": "В магазин", "web_app": {"url": settings.SHOP_LINK}}]]
             markup = json.dumps({"inline_keyboard": keyboard})
             self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello, reply_markup=markup)
 
