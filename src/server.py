@@ -15,11 +15,11 @@ sys.path.insert(1, os.path.join(sys.path[0], '..'))
 # TG Webhooks
 delete_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/deleteWebhook?drop_pending_updates=True")
 print(delete_webhook.status_code)
-set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/setWebhook?url={settings.DOMAIN}api/bot/")
+set_webhook = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_1}/setWebhook?url={settings.DOMAIN}/api/bot/")
 print(set_webhook.status_code)
 delete_webhook2 = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/deleteWebhook?drop_pending_updates=True")
 print(delete_webhook.status_code)
-set_webhook2 = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/setWebhook?url={settings.DOMAIN}api/bot2/")
+set_webhook2 = requests.get(f"https://api.telegram.org/bot{settings.BOT_TOKEN_2}/setWebhook?url={settings.DOMAIN}/api/bot2/")
 print(set_webhook.status_code)
 sleep(3)
 # MS Webhooks
