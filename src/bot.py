@@ -481,9 +481,13 @@ class Entrypoint:
         self.user_id = self.message_from.get('id')
 
         if self.chat_type == 'private' and self.text == '/start':
+            self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello)
+
+        if self.chat_type == 'private' and self.text == '/shop':
             keyboard = [[{"text": "В магазин", "web_app": {"url": settings.SHOP_LINK}}]]
             markup = json.dumps({"inline_keyboard": keyboard})
-            self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello, reply_markup=markup)
+            with open("asort.jpg", "rb") as photo_bin:
+                self.bot.send_photo(chat_id=self.chat_id,photo=photo_bin, reply_markup=markup)
 
 class Entrypoint2:
     def __init__(self, body, token):
