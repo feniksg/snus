@@ -487,7 +487,7 @@ class Entrypoint:
             keyboard = [[{"text": "В магазин", "web_app": {"url": settings.SHOP_LINK}}]]
             markup = json.dumps({"inline_keyboard": keyboard})
             with open("asort.jpg", "rb") as photo_bin:
-                self.bot.send_photo(chat_id=self.chat_id,photo=photo_bin, reply_markup=markup)
+                self.bot.forward_tg_message()
 
 class Entrypoint2:
     def __init__(self, body, token):
