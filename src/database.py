@@ -104,6 +104,6 @@ def get_items(brand = None, nicotine_strength = None, taste = None, snus_type = 
           
 if __name__ == '__main__':
     # insert_items([CategoryModel(name="Cat's and Crabs")])
-    insert_items([ProductModel(ms_code='00001',name='Тестовое  имя',retail_price= 200.0,image='00001.png', mt10= 180.0,nicotine_strength= 20.0, taste='MINT',snus_type= "1",brand= "1",currency= "THB",sale_price= 0,is_sale= False, is_popular=False, search_name= 'dsfsdf')])
-    # create_tables()
+    # insert_items([ProductModel(ms_code='00001',name='Тестовое  имя',retail_price= 200.0,image='00001.png', mt10= 180.0,nicotine_strength= 20.0, taste='MINT',snus_type= "1",brand= "1",currency= "THB",sale_price= 0,is_sale= False, is_popular=False, search_name= 'dsfsdf')])
+    create_tables()
     # get_categories()
