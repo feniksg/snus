@@ -448,6 +448,11 @@ class Entrypoint:
                 chat_id=user_id,
                 text=f"Ваш заказ на сумму {total}฿ принят!"
             )
+            if payment == 'translation':
+                self.bot.send_tg_message(
+                    chat_id=user_id,
+                    text = 'Для подтверждения заказа отправьте скришот с оплатой в этот чат.'
+                )
             return
 
     def run(self):
