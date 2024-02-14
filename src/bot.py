@@ -499,10 +499,10 @@ class Entrypoint:
         self.user_id = self.message_from.get('id')
 
         if self.chat_type == 'private' and self.text == '/start':
-            if self.languange_code == "ru":
-                self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.hello_RU, parse_mode="HTML")
-            else:
+            if self.languange_code == "en":
                 self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.hello_EN, parse_mode="HTML")
+            else:
+                self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.hello_RU, parse_mode="HTML")
 
         if self.chat_type == 'private' and self.text == '/FAQ':
             self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.faq)
