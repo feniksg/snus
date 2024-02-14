@@ -91,16 +91,12 @@ async def order_to_tg(request: Request, background_tasks: BackgroundTasks):
 @app.post("/api/bot/")
 async def main(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()
-    if body['message']:
-        print(body['message']['date'])
     background_tasks.add_task(run_entrypoint, body)
     return {"ok": True}
 
 @app.post("/api/bot2/")
 async def main(request: Request, background_tasks: BackgroundTasks):
     body = await request.json()
-    if body['message']:
-        print(body['message']['date'])
     background_tasks.add_task(run_entrypoint2, body)
     return {"ok": True}
 
