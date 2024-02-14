@@ -61,10 +61,10 @@ class Bot:
         sticker
     ):
         data = {
-            'chat_id': chat_id
+            'chat_id': chat_id,
+            'sticker': sticker
         }
-        files= {'sticker':sticker}
-        return self.post('sendSticker', data,files)
+        return self.post('sendSticker', data)
         
 
     def send_tg_message(
