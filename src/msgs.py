@@ -34,3 +34,5 @@ second_after_help = '''
 🛒 /shop  
 ⁉️ /FAQ
 '''
+
+sticker1= 'CAACAgIAAxkBAANPZcyQiwsRGVQa7tUDmujZpLnYliEAAuAYAAKYv6lLUSqSVidUvb40BA'

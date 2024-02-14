@@ -20,13 +20,13 @@ class Bot:
         except Exception:
             resp_json = {}
 
-        # cleaned_request_args = {
-        #     k: ({fn: '...' for fn in v.keys()} if k == 'files' and v else v) for k, v in kwargs.items()
-        # }
-        # logger.info(
-        #     f'TG {http_method} Request: {tg_method} Token: {self.token}\n'
-        #     f'Request data: {cleaned_request_args} Response: {resp_json}',
-        # )
+        cleaned_request_args = {
+            k: ({fn: '...' for fn in v.keys()} if k == 'files' and v else v) for k, v in kwargs.items()
+        }
+        logger.info(
+            f'TG {http_method} Request: {tg_method} Token: {self.token}\n'
+            f'Request data: {cleaned_request_args} Response: {resp_json}',
+        )
 
         try:
             resp.raise_for_status()
@@ -54,6 +54,18 @@ class Bot:
     def set_webhook(self, url):
         params = {"url": url}
         return self.get('setWebhook', params=params)
+
+    def send_sticker(
+        self,
+        chat_id,
+        sticker
+    ):
+        data = {
+            'chat_id': chat_id
+        }
+        files= {'sticker':sticker}
+        return self.post('sendSticker', data,files)
+        
 
     def send_tg_message(
         self,
@@ -555,8 +567,7 @@ class Entrypoint2:
             if self.message.get('text'):
                 self.text = self.message["text"]
                 if self.text == '/start':
-                    with open('1.webp', 'rb') as stikerfile:
-                        self.bot.send_document(self.chat_id, file={'file':stikerfile})
+                    self.bot.send_sticker(self.chat_id, msgs.sticker1)
                     self.bot.send_tg_message(self.chat_id, msgs.help, parse_mode="HTML")
                     self.bot.send_tg_message(self.chat_id, msgs.second_after_help, parse_mode="HTML")
             return
