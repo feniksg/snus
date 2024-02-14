@@ -1,6 +1,7 @@
 import requests, logging, json
 from config import settings
 from database import get_item
+import msgs
 logger = logging.Logger("BOT_1")
 
 class BotError(Exception):
@@ -381,7 +382,6 @@ class Entrypoint:
         self.body = body
         self.bot = Bot(token)
         self.admin_chat = settings.ADMIN_CHAT
-        self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
     
     def order_to_tg(self):
         message = ''
@@ -448,10 +448,11 @@ class Entrypoint:
                 chat_id=user_id,
                 text=f"Ваш заказ на сумму {total}฿ принят!"
             )
-            if payment == 'translation':
+            if payment == 'translation_bat':
                 self.bot.send_tg_message(
                     chat_id=user_id,
-                    text = 'Для подтверждения заказа отправьте скришот с оплатой в этот чат.'
+                    text = msgs.bat_pay,
+                    parse_mode="HTML"
                 )
             return
 
@@ -483,10 +484,17 @@ class Entrypoint:
 
         self.first_name = self.message_from.get('first_name')
         self.username = self.message_from.get('username')
+        self.languange_code = self.message.get('language_code')
         self.user_id = self.message_from.get('id')
 
         if self.chat_type == 'private' and self.text == '/start':
-            self.bot.send_tg_message(chat_id=self.chat_id, text=self.msg_hello)
+            if self.languange_code == "ru":
+                self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.hello_RU, parse_mode="HTML")
+            else:
+                self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.hello_EN, parse_mode="HTML")
+
+        if self.chat_type == 'private' and self.text == '/FAQ':
+            self.bot.send_tg_message(chat_id=self.chat_id, text=msgs.faq)
 
         if self.chat_type == 'private' and self.text == '/shop':
             keyboard = [[{"text": "В магазин", "web_app": {"url": settings.SHOP_LINK}}]]
@@ -498,7 +506,6 @@ class Entrypoint2:
         self.body = body
         self.bot = Bot(token)
         self.admin_chat = settings.ADMIN_CHAT
-        self.msg_hello = """Приветствуем вас в онлайн магазине [Название]!\nВ этом боте вы сможете оформить заказ и ознакомиться с ассортиментом."""
     
     def run(self):
         self.message = self.body.get('message', None)
@@ -525,7 +532,10 @@ class Entrypoint2:
 
         self.first_name = self.message_from.get('first_name')
         self.username = self.message_from.get('username')
+        self.languange_code = self.message.get('language_code')
         self.user_id = self.message_from.get('id')
+        
+
 
         if self.chat_type == "private":
             with open("chat.json", "r", encoding="utf-8") as file:
@@ -543,6 +553,13 @@ class Entrypoint2:
                     json.dump(data, f, ensure_ascii=False, indent=2)
 
             self.bot.forward_tg_message(self.chat_id, self.message_id, self.admin_chat, topic_id)
+            if self.message.get('text'):
+                self.text = self.message["text"]
+                if self.text == '/start':
+                    with open('1.webp', 'rb') as stikerfile:
+                        self.bot.send_document(self.chat_id, file=stikerfile)
+                    self.bot.send_tg_message(self.chat_id, msgs.help, parse_mode="HTML")
+                    self.bot.send_tg_message(self.chat_id, msgs.second_after_help, parse_mode="HTML")
             return
 
         if self.message.get('text'):
