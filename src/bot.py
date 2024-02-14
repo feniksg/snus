@@ -556,7 +556,7 @@ class Entrypoint2:
                 self.text = self.message["text"]
                 if self.text == '/start':
                     with open('1.webp', 'rb') as stikerfile:
-                        self.bot.send_document(self.chat_id, file=stikerfile)
+                        self.bot.send_document(self.chat_id, file={'file':stikerfile})
                     self.bot.send_tg_message(self.chat_id, msgs.help, parse_mode="HTML")
                     self.bot.send_tg_message(self.chat_id, msgs.second_after_help, parse_mode="HTML")
             return
